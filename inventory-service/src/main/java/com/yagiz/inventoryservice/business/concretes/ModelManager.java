@@ -30,6 +30,7 @@ public class ModelManager implements ModelService {
     @Override
     public CreateModelResponse add(CreateModelRequest createModelRequest) {
         Model model=modelMapperService.forRequest().map(createModelRequest, Model.class);
+        model.setId(0);
         repository.save(model);
         CreateModelResponse response=modelMapperService.forResponse().map(model, CreateModelResponse.class);
         return response;

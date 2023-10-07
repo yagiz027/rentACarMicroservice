@@ -28,6 +28,7 @@ public class CarManager implements CarService {
     @Override
     public CreateCarResponse add(CreateCarRequest createCarResponse) {
         Car car=modelMapperService.forRequest().map(createCarResponse, Car.class);
+        car.setId(0);
         repository.save(car);
         CreateCarResponse response=modelMapperService.forResponse().map(car, CreateCarResponse.class);
         return response;

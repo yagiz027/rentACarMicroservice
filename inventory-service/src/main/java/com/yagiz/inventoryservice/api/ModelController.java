@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,13 +37,13 @@ public class ModelController {
 
     @PutMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
-    public UpdateModelResponse update(@PathVariable int id, @RequestParam UpdateModelRequest request){
+    public UpdateModelResponse update(@PathVariable int id, @RequestBody UpdateModelRequest request){
         return modelService.update(id,request);
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public GetModelResponse getModelById(int modelId){
+    public GetModelResponse getModelById(@PathVariable int modelId){
         return modelService.getModelById(modelId);
     }
 
@@ -55,7 +55,7 @@ public class ModelController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteModelById(int modelId){
+    public void deleteModelById(@PathVariable int modelId){
         modelService.deleteModelById(modelId);
     }
 }

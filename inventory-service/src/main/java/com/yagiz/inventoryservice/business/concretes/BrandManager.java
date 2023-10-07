@@ -29,6 +29,7 @@ public class BrandManager implements BrandService {
     @Override
     public CreateBrandResponse add(CreateBrandRequest createBrandRequest) {
         Brand brand = modelMapperService.forRequest().map(createBrandRequest, Brand.class);
+        brand.setId(0);
         repository.save(brand);
         CreateBrandResponse response = modelMapperService.forResponse().map(brand, CreateBrandResponse.class);
         return response;

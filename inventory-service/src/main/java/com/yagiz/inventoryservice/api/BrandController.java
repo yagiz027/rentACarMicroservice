@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,6 +20,7 @@ import com.yagiz.inventoryservice.business.dtos.responses.get.GetBrandListRespon
 import com.yagiz.inventoryservice.business.dtos.responses.get.GetBrandResponse;
 import com.yagiz.inventoryservice.business.dtos.responses.update.UpdateBrandResponse;
 
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -31,13 +31,13 @@ public class BrandController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CreateBrandResponse add(@RequestParam CreateBrandRequest request) {
+    public CreateBrandResponse add(@RequestBody CreateBrandRequest request) {
         return brandService.add(request);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public UpdateBrandResponse update(@PathVariable int id, @RequestParam UpdateBrandRequest request) {
+    public UpdateBrandResponse update(@PathVariable int id, @RequestBody UpdateBrandRequest request) {
         return brandService.update(id, request);
     }
 
@@ -55,7 +55,7 @@ public class BrandController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteBrandById(int brandId) {
+    public void deleteBrandById(@PathVariable int brandId) {
         brandService.deleteBrandById(brandId);
     }
 }
