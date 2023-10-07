@@ -2,8 +2,8 @@ package com.yagiz.inventoryservice.business.rules;
 
 import org.springframework.stereotype.Service;
 
-import com.yagiz.commonservice.RestExceptionHandler.constants.Messages;
-import com.yagiz.commonservice.RestExceptionHandler.exceptions.BusinessException;
+import com.yagiz.commonservice.utils.RestExceptionHandler.constants.Messages;
+import com.yagiz.commonservice.utils.RestExceptionHandler.exceptions.BusinessException;
 import com.yagiz.inventoryservice.repository.ModelRepository;
 
 import lombok.RequiredArgsConstructor;

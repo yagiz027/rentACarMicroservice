@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.yagiz.commonservice.Configuration.ModelMapper.ModelMapperService;
+import com.yagiz.commonservice.utils.ModelMapper.ModelMapperService;
 import com.yagiz.inventoryservice.business.abstracts.CarService;
 import com.yagiz.inventoryservice.business.dtos.requests.create.CreateCarRequest;
 import com.yagiz.inventoryservice.business.dtos.requests.update.UpdateCarRequest;

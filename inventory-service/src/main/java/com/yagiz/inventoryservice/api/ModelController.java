@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/models")
 public class ModelController {
     private final ModelService modelService;
 
@@ -33,13 +35,13 @@ public class ModelController {
         return modelService.add(request);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
     public UpdateModelResponse update(@PathVariable int id, @RequestParam UpdateModelRequest request){
         return modelService.update(id,request);
     }
 
-    @GetMapping("/{{id}")
+    @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public GetModelResponse getModelById(int modelId){
         return modelService.getModelById(modelId);

@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.yagiz.commonservice.Configuration.ModelMapper.ModelMapperService;
-import com.yagiz.commonservice.RestExceptionHandler.exceptions.BusinessException;
+import com.yagiz.commonservice.utils.ModelMapper.ModelMapperService;
+import com.yagiz.commonservice.utils.RestExceptionHandler.exceptions.BusinessException;
 import com.yagiz.inventoryservice.business.abstracts.BrandService;
 import com.yagiz.inventoryservice.business.dtos.requests.create.CreateBrandRequest;
 import com.yagiz.inventoryservice.business.dtos.requests.update.UpdateBrandRequest;
@@ -47,7 +47,7 @@ public class BrandManager implements BrandService {
     @Override
     public GetBrandResponse getBrandById(int brandId) {
         Brand brand = repository.findById(brandId).orElseThrow(() -> new BusinessException(
-                com.yagiz.commonservice.RestExceptionHandler.constants.Messages.Brand.NotExists));
+                com.yagiz.commonservice.utils.RestExceptionHandler.constants.Messages.Brand.NotExists));
         GetBrandResponse response = modelMapperService.forResponse().map(brand, GetBrandResponse.class);
         return response;
     }
