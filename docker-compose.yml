@@ -1,16 +1,17 @@
-version: '3.8'
+version: '4.20'
 services: 
-  inventoryDb:
-    container_name: inventory-db-mysql
-    image: mysql 
+  inventorydb:
+    container_name: inventory-mysql-container
+    image: mysql
     ports:
       - "3307:3307"
     environment:
-      - MYSQL_ROOT_PASSWORD = ygz123
-      - MYSQL_TCP_PORT = 3307
-      - VIRTUAL_PORT = 3307 
+      - MYSQL_ROOT_PASSWORD=ygz123
+      - MYSQL_TCP_PORT=3307
+      - VIRTUAL_PORT=3307
     volumes:
       - inventorydb:/data/db
+
 volumes:
-  inventoryDb:
+  inventorydb:
       
