@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.yagiz.commonservice.RestExceptionHandler.constants.ExceptionTypes;
-import com.yagiz.commonservice.RestExceptionHandler.exceptions.BusinessException;
-import com.yagiz.commonservice.RestExceptionHandler.exceptions.ExceptionResult;
+import com.yagiz.commonservice.utils.RestExceptionHandler.constants.ExceptionTypes;
+import com.yagiz.commonservice.utils.RestExceptionHandler.exceptions.BusinessException;
+import com.yagiz.commonservice.utils.RestExceptionHandler.exceptions.ExceptionResult;
 
 import jakarta.validation.ValidationException;
 
