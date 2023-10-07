@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        default-label: main
+        git:
+          uri: https://github.com/yagiz027/rent-a-car-microservice-configuration-repo
+  profiles:
+    active: dev
+server:
+  port: 8888
+    
