@@ -18,4 +18,8 @@ public class Messages {
         public static final String AlreadyExists="MODEL_ALREADY_EXISTS";
         public static final String NotAvailable="MODEL_NOT_AVAILABLE";
     }
+
+    public static class Maintenance{
+        public static final String NotExists="MAINTENANCE_NOT_EXISTS";
+    }
 }
