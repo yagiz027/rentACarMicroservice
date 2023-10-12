@@ -24,6 +24,7 @@ public class Maintenance {
     private int id;
     private int carId;
     private String information;
+    private boolean isCompleted;
     private LocalDateTime startDate; 
     private LocalDateTime endDateTime;
 }
