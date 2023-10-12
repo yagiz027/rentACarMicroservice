@@ -3,14 +3,7 @@ package com.yagiz.inventoryservice.api;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.yagiz.inventoryservice.business.abstracts.BrandService;
 import com.yagiz.inventoryservice.business.dtos.requests.create.CreateBrandRequest;
@@ -20,7 +13,7 @@ import com.yagiz.inventoryservice.business.dtos.responses.get.GetBrandListRespon
 import com.yagiz.inventoryservice.business.dtos.responses.get.GetBrandResponse;
 import com.yagiz.inventoryservice.business.dtos.responses.update.UpdateBrandResponse;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -30,8 +23,7 @@ public class BrandController {
     private final BrandService brandService;
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public CreateBrandResponse add(@RequestBody CreateBrandRequest request) {
+    public CreateBrandResponse add(@Valid @RequestBody CreateBrandRequest request) {
         return brandService.add(request);
     }
 
@@ -43,8 +35,8 @@ public class BrandController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public GetBrandResponse getModelById(@PathVariable int brandId) {
-        return brandService.getBrandById(brandId);
+    public GetBrandResponse getModelById(@PathVariable int id) {
+        return brandService.getBrandById(id);
     }
 
     @GetMapping
@@ -55,7 +47,7 @@ public class BrandController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteBrandById(@PathVariable int brandId) {
-        brandService.deleteBrandById(brandId);
+    public void deleteBrandById(@PathVariable int id) {
+        brandService.deleteBrandById(id);
     }
 }

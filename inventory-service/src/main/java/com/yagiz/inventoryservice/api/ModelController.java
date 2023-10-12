@@ -3,15 +3,7 @@ package com.yagiz.inventoryservice.api;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.yagiz.inventoryservice.business.abstracts.ModelService;
 import com.yagiz.inventoryservice.business.dtos.requests.create.CreateModelRequest;
@@ -43,8 +35,8 @@ public class ModelController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public GetModelResponse getModelById(@PathVariable int modelId){
-        return modelService.getModelById(modelId);
+    public GetModelResponse getModelById(@PathVariable int id){
+        return modelService.getModelById(id);
     }
 
     @GetMapping
@@ -55,7 +47,7 @@ public class ModelController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteModelById(@PathVariable int modelId){
-        modelService.deleteModelById(modelId);
+    public void deleteModelById(@PathVariable int id){
+        modelService.deleteModelById(id);
     }
 }
