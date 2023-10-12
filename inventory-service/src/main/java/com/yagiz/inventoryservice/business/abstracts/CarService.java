@@ -6,6 +6,7 @@ import com.yagiz.inventoryservice.business.dtos.responses.create.CreateCarRespon
 import com.yagiz.inventoryservice.business.dtos.responses.get.GetCarListResponse;
 import com.yagiz.inventoryservice.business.dtos.responses.get.GetCarResponse;
 import com.yagiz.inventoryservice.business.dtos.responses.update.UpdateCarResponse;
+import com.yagiz.inventoryservice.entity.enums.State;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ public interface CarService {
     UpdateCarResponse upate(int id, UpdateCarRequest updateCarRequest);
     GetCarResponse getCarById(int id);
     List<GetCarListResponse> getCarList();
+    void changeStateByCarId(State state, int id);
     void deleteCarById(int id);
 
 }
