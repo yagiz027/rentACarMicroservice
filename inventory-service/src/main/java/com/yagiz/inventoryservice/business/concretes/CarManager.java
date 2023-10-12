@@ -14,6 +14,7 @@ import com.yagiz.inventoryservice.business.dtos.responses.get.GetCarResponse;
 import com.yagiz.inventoryservice.business.dtos.responses.update.UpdateCarResponse;
 import com.yagiz.inventoryservice.business.rules.CarBusinessRules;
 import com.yagiz.inventoryservice.entity.Car;
+import com.yagiz.inventoryservice.entity.enums.State;
 import com.yagiz.inventoryservice.repository.CarRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -63,5 +64,11 @@ public class CarManager implements CarService {
     public void deleteCarById(int id) {
         rules.checkIfCarNotExists(id);
         repository.deleteById(id);
+    }
+
+    @Override
+    public void changeStateByCarId(State state, int id) {
+        rules.checkIfCarNotExists(id);
+        repository.changeStateByCarId(state, id);
     }
 }
