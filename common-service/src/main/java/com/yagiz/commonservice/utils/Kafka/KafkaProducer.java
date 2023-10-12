@@ -16,11 +16,19 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class KafkaProducer {
     private final KafkaTemplate<String, Object> kafkaTemplate;
-
-    public <T extends Event> void sendMessage(T event, String topic){
+    /**
+     * Bu method kafka'ya bir mesaj iletme işlemi gerçekleştirir. 
+     * @param <T> Tipinde herhangi bir custom event sınıfı ve event message alır.
+     * Bu sınıf'ı generic bir type olarak kullanarak ilgili payload üzerinden mesaj oluşturur.
+     * Ardından mesajı kafkaya iletir. 
+     * @param event SomeEvent.class
+     * @param topic Topic => gerçekleşelen işlem mesajı
+     * @author yagizeris
+     */
+    public <T extends Event> void sendMessage(T event, String topic) {
         log.info(String.format("%s event => %s", topic, event.toString()));
-        Message<T> message=MessageBuilder.withPayload(event).setHeader(KafkaHeaders.TOPIC,topic).build();
-        
+        Message<T> message = MessageBuilder.withPayload(event).setHeader(KafkaHeaders.TOPIC, topic).build();
+
         kafkaTemplate.send(message);
     }
 }
