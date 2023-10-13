@@ -6,8 +6,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.yagiz.commonservice.utils.Kafka.KafkaProducer;
-import com.yagiz.commonservice.utils.Kafka.Events.MaintenanceEvents.MaintenanceCreateEvent;
-import com.yagiz.commonservice.utils.Kafka.Events.MaintenanceEvents.MaintenanceDeleteEvent;
+import com.yagiz.commonservice.utils.Kafka.Events.Maintenance.MaintenanceCreateEvent;
+import com.yagiz.commonservice.utils.Kafka.Events.Maintenance.MaintenanceDeleteEvent;
 import com.yagiz.commonservice.utils.ModelMapper.ModelMapperService;
 import com.yagiz.commonservice.utils.RestExceptionHandler.constants.Messages;
 import com.yagiz.commonservice.utils.RestExceptionHandler.exceptions.BusinessException;
