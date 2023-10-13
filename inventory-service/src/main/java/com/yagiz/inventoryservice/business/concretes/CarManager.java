@@ -4,7 +4,13 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.yagiz.commonservice.utils.Kafka.KafkaProducer;
+import com.yagiz.commonservice.utils.Kafka.Events.Inventory.CarCreatedEvent;
+import com.yagiz.commonservice.utils.Kafka.Events.Inventory.CarDeletedEvent;
 import com.yagiz.commonservice.utils.ModelMapper.ModelMapperService;
+import com.yagiz.commonservice.utils.RestExceptionHandler.exceptions.BusinessException;
+import com.yagiz.commonservice.utils.dto.CarClientResponse;
+import com.yagiz.commonservice.utils.dto.ClientResponse;
 import com.yagiz.inventoryservice.business.abstracts.CarService;
 import com.yagiz.inventoryservice.business.dtos.requests.create.CreateCarRequest;
 import com.yagiz.inventoryservice.business.dtos.requests.update.UpdateCarRequest;
@@ -25,13 +31,16 @@ public class CarManager implements CarService {
     private final CarRepository repository;
     private final ModelMapperService modelMapperService;
     private final CarBusinessRules rules;
+    private final KafkaProducer producer;
 
     @Override
     public CreateCarResponse add(CreateCarRequest createCarResponse) {
         Car car=modelMapperService.forRequest().map(createCarResponse, Car.class);
         car.setId(0);
         car.setState(State.AVAILABLE);
-        repository.save(car);
+        var createdCar = repository.save(car);
+        sendCarCreatedEventKafka(createdCar);
+
         CreateCarResponse response=modelMapperService.forResponse().map(car, CreateCarResponse.class);
         return response;
     }
@@ -65,11 +74,38 @@ public class CarManager implements CarService {
     public void deleteCarById(int id) {
         rules.checkIfCarNotExists(id);
         repository.deleteById(id);
+        sendKafkaCarDeletedEvent(id);
     }
 
     @Override
     public void changeStateByCarId(State state, int id) {
         rules.checkIfCarNotExists(id);
         repository.changeStateByCarId(state, id);
+    }
+
+    private void sendCarCreatedEventKafka(Car createdCar){
+        var event = modelMapperService.forResponse().map(createdCar, CarCreatedEvent.class);
+        producer.sendMessage(event, "car-created");
+    }
+
+    private void sendKafkaCarDeletedEvent(int id){
+        producer.sendMessage(new CarDeletedEvent(id), "car-deleted");
+    }
+
+    @Override
+    public ClientResponse checkCarAvailabilty(int id) {
+        var response = new CarClientResponse();
+        validateCarAvailabilty(id,response);
+        return response;
+    }
+
+    private void validateCarAvailabilty(int id, ClientResponse response) {
+        try{
+            rules.checkIfCarIsAvailable(id);
+            rules.checkIfCarNotExists(id);
+        }catch(BusinessException exception){
+            response.setSuccess(false);
+            response.setMessage(exception.getMessage());
+        }
     }
 }

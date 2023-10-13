@@ -1,5 +1,6 @@
 package com.yagiz.inventoryservice.business.abstracts;
 
+import com.yagiz.commonservice.utils.dto.ClientResponse;
 import com.yagiz.inventoryservice.business.dtos.requests.create.CreateCarRequest;
 import com.yagiz.inventoryservice.business.dtos.requests.update.UpdateCarRequest;
 import com.yagiz.inventoryservice.business.dtos.responses.create.CreateCarResponse;
@@ -15,7 +16,7 @@ public interface CarService {
     UpdateCarResponse upate(int id, UpdateCarRequest updateCarRequest);
     GetCarResponse getCarById(int id);
     List<GetCarListResponse> getCarList();
-    void changeStateByCarId(State state, int id);
     void deleteCarById(int id);
-
+    ClientResponse checkCarAvailabilty(int id);
+    void changeStateByCarId(State state, int id);
 }
