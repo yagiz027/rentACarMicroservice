@@ -1,4 +1,4 @@
-package com.yagiz.maintenanceservice.api;
+package com.yagiz.maintenanceservice.api.controllers;
 
 import java.util.List;
 
