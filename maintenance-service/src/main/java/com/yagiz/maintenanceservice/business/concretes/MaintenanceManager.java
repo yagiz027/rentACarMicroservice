@@ -35,6 +35,7 @@ public class MaintenanceManager implements MaintenanceService {
 
     @Override
     public CreateMaintenanceResponse add(CreateMaintenanceRequest request) {
+        rules.ensureCarIsAvailable(request.getCarId());
         Maintenance maintenance = modelMapperService.forRequest().map(request, Maintenance.class);
         maintenance.setId(0);
         maintenance.setCompleted(false);
