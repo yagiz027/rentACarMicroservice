@@ -3,8 +3,8 @@ package com.yagiz.inventoryservice.business.kafka.Consumer;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
-import com.yagiz.commonservice.utils.Kafka.Events.MaintenanceEvents.MaintenanceCreateEvent;
-import com.yagiz.commonservice.utils.Kafka.Events.MaintenanceEvents.MaintenanceDeleteEvent;
+import com.yagiz.commonservice.utils.Kafka.Events.Maintenance.MaintenanceCreateEvent;
+import com.yagiz.commonservice.utils.Kafka.Events.Maintenance.MaintenanceDeleteEvent;
 import com.yagiz.inventoryservice.business.abstracts.CarService;
 import com.yagiz.inventoryservice.entity.enums.State;
 
