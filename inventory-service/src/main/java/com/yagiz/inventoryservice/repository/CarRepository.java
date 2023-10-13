@@ -14,6 +14,6 @@ public interface CarRepository extends JpaRepository<Car, Integer> {
 
     @Modifying
     @Transactional
-    @Query("update Car set state =: state where id=:id")
+    @Query(value = "update Car set state = :state where id = :id")
     void changeStateByCarId(State state, int id);
 }

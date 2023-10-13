@@ -20,9 +20,6 @@ public class CreateCarRequest {
     @NotNull
     private int modelId;
 
-    @NotNull
-    private String name;
-
     @NotBlank
     @Pattern(regexp = Regex.Plate)
     private String plate;

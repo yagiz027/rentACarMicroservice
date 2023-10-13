@@ -18,9 +18,6 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     
-    @Column(name="carName")
-    private String name;
-    
     @Column(name="plate")
     private String plate;
 

@@ -17,22 +17,19 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UpdateCarRequest {
-    @NotBlank
-    private String name;
+    @NotNull
+    private int modelId;
 
     @Pattern(regexp = Regex.Plate)
     private String plate;
 
     @Min(value = 1)
     private double dailyPrice;
-
+    
     @NotBlank
     @NotFutureYear
     private int modelYear;
-
+    
     @NotNull
     private String state;
-
-    @NotNull
-    private String modelId;
 }
