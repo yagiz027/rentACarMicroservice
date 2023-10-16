@@ -22,4 +22,8 @@ public class Messages {
     public static class Maintenance{
         public static final String NotExists="MAINTENANCE_NOT_EXISTS";
     }
+
+    public static class Invoice{
+        public static final String NotExists="INVOICE_NOT_EXISTS";
+    }
 }
