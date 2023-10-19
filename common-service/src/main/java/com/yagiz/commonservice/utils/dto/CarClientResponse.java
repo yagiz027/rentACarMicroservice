@@ -12,6 +12,8 @@ import lombok.Setter;
 public class CarClientResponse extends ClientResponse {
     private String modelName;
     private String brandName;
+    private String carName;
     private String plate;
     private int modelYear;
+    private double dailyPrice;
 }
