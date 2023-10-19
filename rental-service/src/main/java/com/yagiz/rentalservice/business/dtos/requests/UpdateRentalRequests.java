@@ -17,6 +17,6 @@ public class UpdateRentalRequests {
     private int carId;
     @NonNull
     private int rentedForDays;
-    private double dailyPrice;
+     
     private LocalDate rentedAt;
 }
