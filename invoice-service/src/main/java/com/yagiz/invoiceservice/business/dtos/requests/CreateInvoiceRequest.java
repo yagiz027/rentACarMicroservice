@@ -18,7 +18,6 @@ public class CreateInvoiceRequest {
     private String plate;
     private int modelYear;
     private double dailyPrice;
-    private double totalPrice;
     private int rentedForDays;
     private LocalDateTime rentedAt;
 }

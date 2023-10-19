@@ -12,14 +12,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class GetInvoiceResponse {
-    private int id;
     private String cardHolder;
     private String modelName;
     private String brandName;
     private String plate;
     private int modelYear;
     private double dailyPrice;
-    private double totalPrice;
     private int rentedForDays;
     private LocalDateTime rentedAt;
 }
