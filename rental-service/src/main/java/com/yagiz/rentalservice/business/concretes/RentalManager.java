@@ -9,6 +9,7 @@ import com.yagiz.commonservice.utils.Kafka.KafkaProducer;
 import com.yagiz.commonservice.utils.Kafka.Events.Rental.RentalCreateEvent;
 import com.yagiz.commonservice.utils.Kafka.Events.Rental.RentalDeleteEvent;
 import com.yagiz.commonservice.utils.ModelMapper.ModelMapperService;
+import com.yagiz.rentalservice.api.clients.CarClient;
 import com.yagiz.rentalservice.business.abstracts.RentalService;
 import com.yagiz.rentalservice.business.dtos.requests.CreateRentalRequest;
 import com.yagiz.rentalservice.business.dtos.requests.UpdateRentalRequests;
@@ -29,17 +30,30 @@ public class RentalManager implements RentalService{
     private final ModelMapperService mapperService;
     private final RentalBusinessRules rules;
     private final KafkaProducer producer;
+    private final CarClient carClient;
     
     @Override
     public CreateRentalResponses add(CreateRentalRequest createRentalRequest) {
         Rental rental=mapperService.forRequest().map(createRentalRequest, Rental.class);
+        var car = carClient.getCarForRental(rental.getCarId());
         rental.setId(0);
         rental.setRentedAt(LocalDate.now());
+        rental.setDailyPrice(car.getDailyPrice());
+        rental.setTotalPrice(getTotalPrice(rental));
 
         var createdRental = rentalRepository.save(rental);
         CreateRentalResponses rentalResponses=mapperService.forResponse().map(rental, CreateRentalResponses.class);
+        rentalResponses.setBrandName(car.getBrandName());
+        rentalResponses.setModelName(car.getModelName());;
+        rentalResponses.setCarName(car.getCarName());
+        
         sendKafkaRentalCreateEvent(createdRental);
         return rentalResponses;
+    }
+
+    private double getTotalPrice(Rental rental) {
+        double totalPrice = rental.getDailyPrice() * rental.getRentedForDays();
+        return totalPrice;
     }
 
     @Override

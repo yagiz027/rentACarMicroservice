@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import com.yagiz.commonservice.utils.RestExceptionHandler.constants.Messages;
 import com.yagiz.commonservice.utils.RestExceptionHandler.exceptions.BusinessException;
+import com.yagiz.commonservice.utils.dto.CarClientResponse;
 import com.yagiz.commonservice.utils.dto.ClientResponse;
 
 import lombok.AllArgsConstructor;
@@ -16,6 +17,12 @@ public class CarClientFallback implements CarClient{
 
     @Override
     public ClientResponse checkCarAvailibilty(int carId) {
+        log.info("inventory service is down!");
+        throw new BusinessException(Messages.Inventory.ServiceNotAvailable);
+    }
+
+    @Override
+    public CarClientResponse getCarForRental(int carId) {
         log.info("inventory service is down!");
         throw new BusinessException(Messages.Inventory.ServiceNotAvailable);
     }

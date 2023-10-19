@@ -20,8 +20,5 @@ public class CreateRentalRequest {
     @Min(value = 1)
     private int rentedForDays;
     
-    @Min(value = 1)
-    private double dailyPrice;
-    
     private LocalDate rentedAt;
 }
