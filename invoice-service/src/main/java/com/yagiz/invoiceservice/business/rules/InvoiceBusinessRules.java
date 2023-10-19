@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 public class InvoiceBusinessRules {
     private final InvoiceRepository repository;
 
-    public void checkIfInvoiceNotExists(int id){
+    public void checkIfInvoiceNotExists(String id) {
         if(!repository.existsById(id)){
             throw new BusinessException(Messages.Invoice.NotExists);
         }
