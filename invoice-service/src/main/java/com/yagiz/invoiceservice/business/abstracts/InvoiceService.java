@@ -2,17 +2,12 @@ package com.yagiz.invoiceservice.business.abstracts;
 
 import java.util.List;
 
-import com.yagiz.invoiceservice.business.dtos.requests.CreateInvoiceRequest;
-import com.yagiz.invoiceservice.business.dtos.requests.UpdateInvoiceRequest;
-import com.yagiz.invoiceservice.business.dtos.responses.CreateInvoiceResponse;
-import com.yagiz.invoiceservice.business.dtos.responses.UpdateInvoiceResponse;
 import com.yagiz.invoiceservice.business.dtos.responses.get.GetInvoiceListResponse;
 import com.yagiz.invoiceservice.business.dtos.responses.get.GetInvoiceResponse;
+import com.yagiz.invoiceservice.entity.Invoice;
 
 public interface InvoiceService {
-    CreateInvoiceResponse add(CreateInvoiceRequest createInvoiceRequest);
-    UpdateInvoiceResponse update(int id,UpdateInvoiceRequest updateInvoiceRequest);
+    void add(Invoice invoice);
     List<GetInvoiceListResponse> getInvoiceList();
-    GetInvoiceResponse getInvoiceById(int id);
-    void deleteById(int id);
+    GetInvoiceResponse getInvoiceById(String id);
 }
