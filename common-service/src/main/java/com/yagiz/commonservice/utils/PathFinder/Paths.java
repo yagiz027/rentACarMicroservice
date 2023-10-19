@@ -10,4 +10,12 @@ public class Paths {
     public static class Maintenance{
         public static final String ServiceBasePackage="com.yagiz.maintenanceservice";
     }
+
+    public static class Invoice{
+        public static final String ServiceBasePackage="com.yagiz.invoiceservice";
+    }
+
+    public static class Rental{
+        public static final String ServiceBasePackage="com.yagiz.rentalservice";
+    }
 }
