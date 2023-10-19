@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import com.yagiz.commonservice.utils.dto.CarClientResponse;
 import com.yagiz.commonservice.utils.dto.ClientResponse;
 import com.yagiz.inventoryservice.business.abstracts.CarService;
 import com.yagiz.inventoryservice.business.dtos.requests.create.CreateCarRequest;
@@ -53,7 +54,14 @@ public class CarController {
     }
 
     @GetMapping("check-car-available/{carId}")
+    @ResponseStatus(HttpStatus.OK)
     public ClientResponse checkCarAvailabilty(@PathVariable int id){
         return carService.checkCarAvailabilty(id);
+    }
+
+    @GetMapping("get-car/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    private CarClientResponse getCarForRental(@PathVariable int id){
+        return carService.getCarForRental(id);
     }
 }
