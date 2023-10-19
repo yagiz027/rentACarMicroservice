@@ -17,7 +17,7 @@ import lombok.Setter;
 @Setter
 public class Invoice {
     @Id
-    private int id;
+    private String id;
     private String cardHolder;
     private String modelName;
     private String brandName;
