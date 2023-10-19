@@ -1,5 +1,8 @@
 package com.yagiz.inventoryservice.business.abstracts;
 
+import java.util.List;
+
+import com.yagiz.commonservice.utils.dto.CarClientResponse;
 import com.yagiz.commonservice.utils.dto.ClientResponse;
 import com.yagiz.inventoryservice.business.dtos.requests.create.CreateCarRequest;
 import com.yagiz.inventoryservice.business.dtos.requests.update.UpdateCarRequest;
@@ -9,8 +12,6 @@ import com.yagiz.inventoryservice.business.dtos.responses.get.GetCarResponse;
 import com.yagiz.inventoryservice.business.dtos.responses.update.UpdateCarResponse;
 import com.yagiz.inventoryservice.entity.enums.State;
 
-import java.util.List;
-
 public interface CarService {
     CreateCarResponse add(CreateCarRequest createCarRequest);
     UpdateCarResponse upate(int id, UpdateCarRequest updateCarRequest);
@@ -19,4 +20,5 @@ public interface CarService {
     void deleteCarById(int id);
     ClientResponse checkCarAvailabilty(int id);
     void changeStateByCarId(State state, int id);
+    CarClientResponse getCarForRental(int id);
 }

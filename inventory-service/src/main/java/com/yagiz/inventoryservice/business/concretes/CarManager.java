@@ -108,4 +108,11 @@ public class CarManager implements CarService {
             response.setMessage(exception.getMessage());
         }
     }
+
+    @Override
+    public CarClientResponse getCarForRental(int id) {
+        var car = repository.findById(id);
+        CarClientResponse response = modelMapperService.forResponse().map(car, CarClientResponse.class);
+        return response;
+    }
 }
