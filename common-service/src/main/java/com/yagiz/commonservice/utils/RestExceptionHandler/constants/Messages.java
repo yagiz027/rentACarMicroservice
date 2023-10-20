@@ -38,4 +38,12 @@ public class Messages {
         public static final String NotExists="RENTAL_NOT_EXISTS";
         public static final String ServiceNotAvailable="RENTAL_SERVICE_NOT_AVAILABLE";
     }
+
+    public static class Payment{
+        public static final String NotExists="PAYMENT_NOT_EXISTS";
+        public static final String ExpirationDateExpired="PAYMENT_EXPIRATION_DATE_EXPIRED";
+        public static final String NotEnoughMoney="NOT_ENOUGH_MONEY";
+        public static final String AlreadyExists="PAYMENT_ALREADY_EXISTS";
+        public static final String PaymentIsFailed="PAYMENT_NOT_SUCESSFULL";
+    }
 }
