@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.yagiz.commonservice.utils.RestExceptionHandler.constants.Messages;
 import com.yagiz.commonservice.utils.RestExceptionHandler.exceptions.BusinessException;
+import com.yagiz.commonservice.utils.dto.CreateRentalPaymentRequest;
 import com.yagiz.paymentservice.repository.PaymentRepository;
 
 import lombok.AllArgsConstructor;
@@ -34,11 +35,29 @@ public class PaymentBusinessRules {
 
     private boolean isPaymentExpired(int expirationYear,int expirationMonth){
         int localYear = LocalDateTime.now().getYear();
-        int localMont = LocalDateTime.now().getMonth().getValue();
+        int localMonth = LocalDateTime.now().getMonth().getValue();
 
-        if((expirationYear < localYear && expirationMonth < localMont) || (expirationYear > localYear && expirationMonth < localMont)){
+        if(expirationYear >= localYear  && expirationMonth >= localMonth){
             return true;
         }
         return false;
+    }
+
+    public void checkIfPaymentBalaceIsEnough(double balance, double price){
+        if(balance < price){
+            throw new BusinessException(Messages.Payment.NotEnoughMoney);
+        }
+    }
+
+    public void ifPaymentIsValid(CreateRentalPaymentRequest paymentRequest){
+        if(!repository.existsByCardNumberAndCardHolderAndCardExpirationYearAndCardExpirationMonthAndCardCvv(            
+         paymentRequest.getCardNumber(),
+         paymentRequest.getCardHolder(),
+         paymentRequest.getCardExpirationYear(),
+         paymentRequest.getCardExpirationMonth(),
+         paymentRequest.getCardCVV()
+         )){
+            throw new BusinessException(Messages.Payment.PaymentIsNotValid);
+         }  
     }
 }

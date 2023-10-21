@@ -2,6 +2,8 @@ package com.yagiz.paymentservice.business.abstracts;
 
 import java.util.List;
 
+import com.yagiz.commonservice.utils.dto.ClientResponse;
+import com.yagiz.commonservice.utils.dto.CreateRentalPaymentRequest;
 import com.yagiz.paymentservice.business.dtos.requests.CreatePaymentRequest;
 import com.yagiz.paymentservice.business.dtos.requests.UpdatePaymentRequest;
 import com.yagiz.paymentservice.business.dtos.responses.CreatePaymentResponse;
@@ -15,4 +17,5 @@ public interface PaymentService {
     GetPaymentResponse getPaymentById(int id);
     List<GetPaymentListResponse> getPaymentList();
     void deleteById(int id);
+    ClientResponse paymentProcessForRental(CreateRentalPaymentRequest rentalPaymentRequest);
 }

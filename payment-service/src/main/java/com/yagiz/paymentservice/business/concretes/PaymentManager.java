@@ -6,8 +6,10 @@ import org.springframework.stereotype.Service;
 
 import com.yagiz.commonservice.utils.Kafka.KafkaProducer;
 import com.yagiz.commonservice.utils.Kafka.Events.Payment.PaymentCreateEvent;
-import com.yagiz.commonservice.utils.Kafka.Events.Payment.PaymentDeletedEvent;
 import com.yagiz.commonservice.utils.ModelMapper.ModelMapperService;
+import com.yagiz.commonservice.utils.RestExceptionHandler.exceptions.BusinessException;
+import com.yagiz.commonservice.utils.dto.ClientResponse;
+import com.yagiz.commonservice.utils.dto.CreateRentalPaymentRequest;
 import com.yagiz.paymentservice.adapter.FakePosAdapter;
 import com.yagiz.paymentservice.business.abstracts.PaymentService;
 import com.yagiz.paymentservice.business.dtos.requests.CreatePaymentRequest;
@@ -37,12 +39,7 @@ public class PaymentManager implements PaymentService {
         Payment payment = mapperService.forRequest().map(request, Payment.class);
         payment.setId(0);
 
-        //Fake paying 
-        rules.checkIfPaymentExpirationDateExpired(payment.getCardExpirationYear(),payment.getCardExpirationMonth());
-        adapter.pay();
-        var createEvent = repository.save(payment);
         CreatePaymentResponse response = mapperService.forResponse().map(payment, CreatePaymentResponse.class);
-        sendPaymentCreateEventToKafka(createEvent);
         return response;
     }
     @Override
@@ -50,9 +47,7 @@ public class PaymentManager implements PaymentService {
         rules.checkIfPaymentNotExists(id);
         Payment payment = mapperService.forRequest().map(request, Payment.class);
         payment.setId(id); 
-        
-        rules.checkIfPaymentExpirationDateExpired(payment.getCardExpirationYear(),payment.getCardExpirationMonth());
-        adapter.pay();
+
         repository.save(payment);
         UpdatePaymentResponse response = mapperService.forRequest().map(payment, UpdatePaymentResponse.class);
         return response;
@@ -61,8 +56,8 @@ public class PaymentManager implements PaymentService {
     public GetPaymentResponse getPaymentById(int id) {
         rules.checkIfPaymentNotExists(id);
         Payment payment = repository.findById(id).orElseThrow();
+        
         GetPaymentResponse response = mapperService.forResponse().map(payment, GetPaymentResponse.class);
-
         return response;
     }
     @Override
@@ -75,15 +70,40 @@ public class PaymentManager implements PaymentService {
     @Override
     public void deleteById(int id) {
         repository.deleteById(id);
-        sendDeletedPaymentEventToKafka(id);
+    }   
+    
+    @Override
+    public ClientResponse paymentProcessForRental(CreateRentalPaymentRequest rentalPaymentRequest) {
+        ClientResponse response = new ClientResponse();
+        validatePayment(rentalPaymentRequest, response);
+        return response;
     }
 
-    private void sendDeletedPaymentEventToKafka(int id) {
-        producer.sendMessage(new PaymentDeletedEvent(id), "payment-deleted");
+    private void validatePayment(CreateRentalPaymentRequest request, ClientResponse response){
+        try{
+            rules.ifPaymentIsValid(request);
+            var payment = repository.findByCardNumer(request.getCardNumber());
+
+            rules.checkIfPaymentBalaceIsEnough(payment.getBalance(), request.getPrice());
+
+            rules.checkIfPaymentExpirationDateExpired(request.getCardExpirationYear(), request.getCardExpirationMonth());
+
+            adapter.pay();
+
+            processPayment(payment, request.getPrice());
+
+            response.setSuccess(true);
+
+            var event = mapperService.forResponse().map(payment,PaymentCreateEvent.class);
+            producer.sendMessage(event, "payment-success");
+        }catch(BusinessException e){
+            response.setSuccess(false);
+            response.setMessage(e.getMessage());
+        }
     }
 
-    private void sendPaymentCreateEventToKafka(Payment payment){
-        var event = mapperService.forResponse().map(payment, PaymentCreateEvent.class);
-        producer.sendMessage(event, "payment-created");
-    }
+    private void processPayment(Payment payment, double price){
+        payment.setBalance(payment.getBalance() - price);
+        repository.save(payment);
+    }    
 }

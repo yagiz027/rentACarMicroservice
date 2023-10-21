@@ -45,5 +45,7 @@ public class Messages {
         public static final String NotEnoughMoney="NOT_ENOUGH_MONEY";
         public static final String AlreadyExists="PAYMENT_ALREADY_EXISTS";
         public static final String PaymentIsFailed="PAYMENT_NOT_SUCESSFULL";
+        public static final String PaymentIsNotValid = "PAYMENT_NOT_VALID";
+        public static final String ServiceNotAvailable = "PAYMENT_SERVICE_NOT_AVAILABLE";
     }
 }

@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import com.yagiz.commonservice.utils.dto.ClientResponse;
+import com.yagiz.commonservice.utils.dto.CreateRentalPaymentRequest;
 import com.yagiz.paymentservice.business.abstracts.PaymentService;
 import com.yagiz.paymentservice.business.dtos.requests.CreatePaymentRequest;
 import com.yagiz.paymentservice.business.dtos.requests.UpdatePaymentRequest;
@@ -49,5 +51,11 @@ public class PaymentController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(@PathVariable int id){
         service.deleteById(id);
+    }
+
+    @PostMapping("process-rental-payment/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ClientResponse paymentProcessForRental(CreateRentalPaymentRequest rentalPaymentRequest){
+        return service.paymentProcessForRental(rentalPaymentRequest);
     }
 }
