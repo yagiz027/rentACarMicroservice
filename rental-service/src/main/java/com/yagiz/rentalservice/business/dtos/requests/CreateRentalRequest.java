@@ -1,6 +1,6 @@
 package com.yagiz.rentalservice.business.dtos.requests;
 
-import java.time.LocalDate;
+import com.yagiz.commonservice.utils.dto.PaymentRequest;
 
 import io.micrometer.common.lang.NonNull;
 import jakarta.validation.constraints.Min;
@@ -17,8 +17,11 @@ public class CreateRentalRequest {
     @NonNull
     private int carId;
     
-    @Min(value = 1)
+    @Min(1)
     private int rentedForDays;
+
+    @Min(1)
+    private double dailyPrice;
     
-    private LocalDate rentedAt;
+    private PaymentRequest paymentRequest;
 }

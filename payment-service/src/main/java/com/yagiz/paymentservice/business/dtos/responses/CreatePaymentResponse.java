@@ -11,6 +11,7 @@ import lombok.Setter;
 @Setter
 public class CreatePaymentResponse {
     private int id;
+    private String cardNumber;
     private String cardHolder;
     private int cardExpirationYear;
     private int cardExpirationMonth;

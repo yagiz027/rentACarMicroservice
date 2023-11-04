@@ -37,7 +37,7 @@ public class PaymentBusinessRules {
         int localYear = LocalDateTime.now().getYear();
         int localMonth = LocalDateTime.now().getMonth().getValue();
 
-        if(expirationYear >= localYear  && expirationMonth >= localMonth){
+        if((expirationYear >= localYear  && expirationMonth >= localMonth) || (expirationYear <= localYear && expirationMonth > localMonth)){
             return true;
         }
         return false;
@@ -50,7 +50,7 @@ public class PaymentBusinessRules {
     }
 
     public void ifPaymentIsValid(CreateRentalPaymentRequest paymentRequest){
-        if(!repository.existsByCardNumberAndCardHolderAndCardExpirationYearAndCardExpirationMonthAndCardCvv(            
+        if(!repository.existsByCardNumberAndCardHolderAndCardExpirationYearAndCardExpirationMonthAndCardCVV(            
          paymentRequest.getCardNumber(),
          paymentRequest.getCardHolder(),
          paymentRequest.getCardExpirationYear(),

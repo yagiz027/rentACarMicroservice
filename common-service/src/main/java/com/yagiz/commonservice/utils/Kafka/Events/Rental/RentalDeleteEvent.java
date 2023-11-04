@@ -12,5 +12,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RentalDeleteEvent implements Event{
-    private int rentalId;
+    private int carId;
 }

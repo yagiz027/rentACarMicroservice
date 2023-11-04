@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.yagiz.commonservice.utils.Kafka.KafkaProducer;
 import com.yagiz.commonservice.utils.ModelMapper.ModelMapperService;
 import com.yagiz.invoiceservice.business.abstracts.InvoiceService;
 import com.yagiz.invoiceservice.business.dtos.responses.get.GetInvoiceListResponse;
@@ -21,7 +20,6 @@ public class InvoiceManager implements InvoiceService {
     private final InvoiceRepository repository;
     private final ModelMapperService modelMapperService;
     private final InvoiceBusinessRules rules;
-    private final KafkaProducer producer;
 
     @Override
     public List<GetInvoiceListResponse> getInvoiceList() {

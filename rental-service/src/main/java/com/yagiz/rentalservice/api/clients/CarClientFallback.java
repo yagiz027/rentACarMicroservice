@@ -22,7 +22,7 @@ public class CarClientFallback implements CarClient{
     }
 
     @Override
-    public CarClientResponse getCarForRental(int carId) {
+    public CarClientResponse getCar(int carId) {
         log.info("inventory service is down!");
         throw new BusinessException(Messages.Inventory.ServiceNotAvailable);
     }

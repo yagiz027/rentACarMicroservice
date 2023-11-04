@@ -55,13 +55,13 @@ public class CarController {
 
     @GetMapping("check-car-available/{carId}")
     @ResponseStatus(HttpStatus.OK)
-    public ClientResponse checkCarAvailabilty(@PathVariable int id){
-        return carService.checkCarAvailabilty(id);
+    public ClientResponse checkCarAvailabilty(@PathVariable int carId){
+        return carService.checkCarAvailabilty(carId);
     }
 
-    @GetMapping("get-car/{id}")
+    @GetMapping("get-car-for-invoice/{id}")
     @ResponseStatus(HttpStatus.OK)
-    private CarClientResponse getCarForRental(@PathVariable int id){
+    private CarClientResponse getCar(@PathVariable int id){
         return carService.getCarForRental(id);
     }
 }

@@ -39,6 +39,7 @@ public class PaymentManager implements PaymentService {
         Payment payment = mapperService.forRequest().map(request, Payment.class);
         payment.setId(0);
 
+        repository.save(payment);
         CreatePaymentResponse response = mapperService.forResponse().map(payment, CreatePaymentResponse.class);
         return response;
     }
@@ -82,13 +83,11 @@ public class PaymentManager implements PaymentService {
     private void validatePayment(CreateRentalPaymentRequest request, ClientResponse response){
         try{
             rules.ifPaymentIsValid(request);
-            var payment = repository.findByCardNumer(request.getCardNumber());
+            var payment = repository.findByCardNumber(request.getCardNumber());
 
             rules.checkIfPaymentBalaceIsEnough(payment.getBalance(), request.getPrice());
 
             rules.checkIfPaymentExpirationDateExpired(request.getCardExpirationYear(), request.getCardExpirationMonth());
-
-            adapter.pay();
 
             processPayment(payment, request.getPrice());
 
@@ -103,6 +102,7 @@ public class PaymentManager implements PaymentService {
     }
 
     private void processPayment(Payment payment, double price){
+        adapter.pay();
         payment.setBalance(payment.getBalance() - price);
         repository.save(payment);
     }    

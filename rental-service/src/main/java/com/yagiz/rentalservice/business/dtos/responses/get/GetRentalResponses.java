@@ -14,9 +14,6 @@ import lombok.Setter;
 public class GetRentalResponses {
     private int id;
     private int carId;
-    private String carName;
-    private String modelName;
-    private String brandName;
     private int rentedForDays;
     private double dailyPrice;
     private double totalPrice;

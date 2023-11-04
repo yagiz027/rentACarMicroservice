@@ -18,4 +18,7 @@ public class Paths {
     public static class Rental{
         public static final String ServiceBasePackage="com.yagiz.rentalservice";
     }
+    public static class Payment{
+        public static final String ServiceBasePackage="com.yagiz.paymentservice";
+    }
 }

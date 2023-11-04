@@ -53,7 +53,7 @@ public class PaymentController {
         service.deleteById(id);
     }
 
-    @PostMapping("process-rental-payment/{id}")
+    @PostMapping("/process-rental-payment")
     @ResponseStatus(HttpStatus.OK)
     public ClientResponse paymentProcessForRental(CreateRentalPaymentRequest rentalPaymentRequest){
         return service.paymentProcessForRental(rentalPaymentRequest);

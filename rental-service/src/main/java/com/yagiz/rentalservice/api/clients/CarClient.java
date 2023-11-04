@@ -20,6 +20,6 @@ public interface CarClient {
     ClientResponse checkCarAvailibilty(@PathVariable int carId);
 
     @Retry(name = "rentalToInventory")
-    @GetMapping(value = "api/cars/get-car/{carId}")
-    CarClientResponse getCarForRental(@PathVariable int carId);
+    @GetMapping(value = "api/cars/get-car-for-invoice/{carId}")
+    CarClientResponse getCar(@PathVariable int carId);
 }

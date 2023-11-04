@@ -8,7 +8,10 @@ import org.springframework.stereotype.Service;
 import com.yagiz.commonservice.utils.Kafka.KafkaProducer;
 import com.yagiz.commonservice.utils.Kafka.Events.Rental.RentalCreateEvent;
 import com.yagiz.commonservice.utils.Kafka.Events.Rental.RentalDeleteEvent;
+import com.yagiz.commonservice.utils.Kafka.Events.RentalPaymentEvent.CreateRentalPaymentEvent;
 import com.yagiz.commonservice.utils.ModelMapper.ModelMapperService;
+import com.yagiz.commonservice.utils.dto.CarClientResponse;
+import com.yagiz.commonservice.utils.dto.CreateRentalPaymentRequest;
 import com.yagiz.rentalservice.api.clients.CarClient;
 import com.yagiz.rentalservice.business.abstracts.RentalService;
 import com.yagiz.rentalservice.business.dtos.requests.CreateRentalRequest;
@@ -34,25 +37,35 @@ public class RentalManager implements RentalService{
     
     @Override
     public CreateRentalResponses add(CreateRentalRequest createRentalRequest) {
+        rules.checkIfCarAvailable(createRentalRequest.getCarId());
         Rental rental=mapperService.forRequest().map(createRentalRequest, Rental.class);
-        var car = carClient.getCarForRental(rental.getCarId());
         rental.setId(0);
         rental.setRentedAt(LocalDate.now());
-        rental.setDailyPrice(car.getDailyPrice());
-        rental.setTotalPrice(getTotalPrice(rental));
+        rental.setTotalPrice(getTotalPrice(createRentalRequest.getDailyPrice(), createRentalRequest.getRentedForDays()));
+
+        CreateRentalPaymentRequest rentalPaymentRequest=new CreateRentalPaymentRequest();
+        rentalPaymentRequest.setPrice(rental.getTotalPrice());
+        mapperService.forRequest().map(createRentalRequest.getPaymentRequest(),rentalPaymentRequest);
+        rules.checkIfPaymentIsNotProcessed(rentalPaymentRequest);
+        
+        CarClientResponse rentedCar = carClient.getCar(createRentalRequest.getCarId());
+        CreateRentalPaymentEvent rentalPaymentEvent= new CreateRentalPaymentEvent();
+        mapperService.forRequest().map(createRentalRequest.getPaymentRequest(), rentalPaymentEvent);
+        mapperService.forRequest().map(rentedCar, rentalPaymentEvent);
+        mapperService.forRequest().map(rentalPaymentRequest, rentalPaymentEvent);
+        rentalPaymentEvent.setRentedAt(LocalDate.now());
 
         var createdRental = rentalRepository.save(rental);
         CreateRentalResponses rentalResponses=mapperService.forResponse().map(rental, CreateRentalResponses.class);
-        rentalResponses.setBrandName(car.getBrandName());
-        rentalResponses.setModelName(car.getModelName());;
-        rentalResponses.setCarName(car.getCarName());
-        
+        rentalResponses.setTotalPrice(rentalPaymentRequest.getPrice());
+
         sendKafkaRentalCreateEvent(createdRental);
+        sendKafkaRentalPaymentEvent(rentalPaymentEvent);
         return rentalResponses;
     }
 
-    private double getTotalPrice(Rental rental) {
-        double totalPrice = rental.getDailyPrice() * rental.getRentedForDays();
+    private double getTotalPrice(double dailyPrice, int rentedForDays) {
+        double totalPrice = dailyPrice * rentedForDays;
         return totalPrice;
     }
 
@@ -99,5 +112,10 @@ public class RentalManager implements RentalService{
 
     private void sendKafkaRentalDeleteEvent(int id){
         producer.sendMessage(new RentalDeleteEvent(id), "rental-deleted");
+    }
+
+    private void sendKafkaRentalPaymentEvent(CreateRentalPaymentEvent event){
+        var createRentalPaymentEvent = mapperService.forRequest().map(event, CreateRentalPaymentEvent.class);
+        producer.sendMessage(createRentalPaymentEvent, "rental-payment-event-created");
     }
 }
