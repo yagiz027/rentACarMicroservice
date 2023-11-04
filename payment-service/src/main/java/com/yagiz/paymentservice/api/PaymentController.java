@@ -54,8 +54,8 @@ public class PaymentController {
     }
 
     @PostMapping("/process-rental-payment")
-    @ResponseStatus(HttpStatus.OK)
-    public ClientResponse paymentProcessForRental(CreateRentalPaymentRequest rentalPaymentRequest){
+    @ResponseStatus(HttpStatus.CREATED)
+    public ClientResponse paymentProcessForRental(@RequestBody CreateRentalPaymentRequest rentalPaymentRequest){
         return service.paymentProcessForRental(rentalPaymentRequest);
     }
 }
